@@ -1,0 +1,32 @@
+.main {
+    height: 100vm;
+}
+
+.main-content {
+    padding-left: 10%;
+    padding-right: 10%;
+}
+
+.search-bar {
+    margin-top: 30px;
+}
+
+.search-filter-dropdown {
+    float: left;
+}
+
+.search-form {
+    float: left;
+}
+
+.search-text-box {
+    margin-left: 0px;
+}
+
+.create-employee-button {
+    margin-top: 15px;
+}
+
+.employees-table{
+    margin-top: 20px;
+}
