@@ -7,7 +7,7 @@ import './App.css'
 import Navigation from './Components/Navigation';
 import { EmployeeDetails } from './Containers/EmployeeDetails';
 import { EmployeeDetailsEditor } from './Containers/EmployeeDetailsEditor';
-import { getEmployees } from "./services/EmployeeService";
+import { getEmployeesAPI, removeEmployeesAPI } from "./services/EmployeeService";
 import moment from 'moment';
 import _ from 'lodash';
 
@@ -46,7 +46,7 @@ export class App extends React.PureComponent {
       length,
     } = this.state;
 
-    getEmployees({
+    getEmployeesAPI({
       searchMap,
       sortBy,
       sortOrder,
@@ -86,8 +86,23 @@ export class App extends React.PureComponent {
 
   }
 
-  showEmployeeDetails = (index) => {
+  showEmployeeDetails = (e) => {
+    e.preventDefault();
+    const index = e.target.dataset.index
 
+    const {
+      employees
+    } = this.state;
+
+    this.setState({
+      viewEmployeeDetails: employees[index]
+    });
+  }
+
+  hideEmployeeDetails = () => {
+    this.setState({
+      viewEmployeeDetails: null
+    })
   }
 
   editEmployeeDetails = (index) => {
@@ -98,8 +113,19 @@ export class App extends React.PureComponent {
 
   }
 
-  removeEmployee = (index) => {
+  removeEmployee = (e) => {
+    e.preventDefault();
+    const index = e.target.dataset.index
+    const {
+      employees
+    } = this.state;
 
+    removeEmployeesAPI({
+      employeeID: employees[index].employeeID
+    })
+      .then(() => {
+        this.getEmployees();
+      })
   }
 
   search = (event) => {
@@ -140,9 +166,10 @@ export class App extends React.PureComponent {
       searchMap,
       sortOrder,
       sortBy,
+      viewEmployeeDetails,
     } = this.state;
 
-    const rowsElements = employees.map(function ({
+    const rowsElements = employees.map(({
       employeeID,
       firstName,
       lastName,
@@ -152,7 +179,7 @@ export class App extends React.PureComponent {
       email,
       region,
       dob,
-    }) {
+    }, index) => {
       return (
         <tr key={employeeID}>
           <th scope="row">{employeeID}</th>
@@ -171,8 +198,8 @@ export class App extends React.PureComponent {
             </a>
 
               <div className="dropdown-menu" aria-labelledby="rowActions">
-                <a className="dropdown-item" href="#">Remove</a>
-                <a className="dropdown-item" href="#">View</a>
+                <a className="dropdown-item" data-index={index} onClick={this.removeEmployee} href="#">Remove</a>
+                <a className="dropdown-item" data-index={index} onClick={this.showEmployeeDetails} href="#">View</a>
                 <a className="dropdown-item" href="#">Edit</a>
               </div>
             </div>
@@ -238,18 +265,19 @@ export class App extends React.PureComponent {
           </div >
         </div >
 
-        <EmployeeDetails
-          show={false}
-          employeeID={'EM03'}
-          firstName={'Vikas Bansal'}
-          lastName=""
-          code={'E1'}
-          jobTitle={'LSE'}
-          phone={'8802339189'}
-          email={'bansal.vks@gmail.com'}
-          region={'IN'}
-          dob={'23/02/1991'}
-        />
+        {viewEmployeeDetails ? <EmployeeDetails
+          show={true}
+          employeeID={viewEmployeeDetails.employeeID}
+          firstName={viewEmployeeDetails.firstName}
+          lastName={viewEmployeeDetails.lastName}
+          code={viewEmployeeDetails.code}
+          jobTitle={viewEmployeeDetails.jobTitle}
+          phone={viewEmployeeDetails.phone}
+          email={viewEmployeeDetails.email}
+          region={viewEmployeeDetails.region}
+          dob={viewEmployeeDetails.dob}
+          close={this.hideEmployeeDetails}
+        /> : null}
 
         <EmployeeDetailsEditor
           show={false}

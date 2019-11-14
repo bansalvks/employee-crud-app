@@ -1,4 +1,5 @@
 import React from 'react'
+import moment from 'moment'
 
 export function EmployeeDetails({
     show = false,
@@ -11,6 +12,7 @@ export function EmployeeDetails({
     email,
     region,
     dob,
+    close,
 }) {
 
     return (
@@ -33,13 +35,13 @@ export function EmployeeDetails({
                         data-dismiss="modal"
                         aria-label="Close"
                     >
-                        <span aria-hidden="true">×</span>
+                        <span onClick={close} aria-hidden="true">×</span>
                     </button>
 
                     <div className="container modal-heading">
                         <div className="row">
                             <h6 className="light-label">
-                                {code}
+                                {employeeID}
                             </h6>
                         </div>
                         <div className="row">
@@ -56,7 +58,7 @@ export function EmployeeDetails({
                                     <span className="light-label">Name</span>
                                 </div>
                                 <div className="col-6">
-                                    <span>Vikas Bansal</span>
+                                    <span>{firstName + " " + lastName}</span>
                                 </div>
                             </div>
 
@@ -65,7 +67,7 @@ export function EmployeeDetails({
                                     <span className="light-label">Employee Code</span>
                                 </div>
                                 <div className="col-6">
-                                    <span>EMP 1</span>
+                                    <span>{code}</span>
                                 </div>
                             </div>
 
@@ -74,7 +76,7 @@ export function EmployeeDetails({
                                     <span className="light-label">Job Title</span>
                                 </div>
                                 <div className="col-6">
-                                    <span>Developer</span>
+                                    <span>{jobTitle}</span>
                                 </div>
                             </div>
 
@@ -83,7 +85,7 @@ export function EmployeeDetails({
                                     <span className="light-label">Phone Number</span>
                                 </div>
                                 <div className="col-6">
-                                    <span>8802339189</span>
+                                    <span>{phone}</span>
                                 </div>
                             </div>
 
@@ -92,7 +94,7 @@ export function EmployeeDetails({
                                     <span className="light-label">Email ID</span>
                                 </div>
                                 <div className="col-6">
-                                    <span>bansal.vks@gmail.com</span>
+                                    <span>{email}</span>
                                 </div>
                             </div>
 
@@ -101,7 +103,7 @@ export function EmployeeDetails({
                                     <span className="light-label">Region</span>
                                 </div>
                                 <div className="col-6">
-                                    <span>IN</span>
+                                    <span>{region}</span>
                                 </div>
                             </div>
 
@@ -110,21 +112,19 @@ export function EmployeeDetails({
                                     <span className="light-label">DOB</span>
                                 </div>
                                 <div className="col-6">
-                                    <span>23/02/1991</span>
+                                    <span>{moment(dob).format("DD/MM/YYYY")}</span>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div className="modal-footer">
                         <button
+                            onClick={close}
                             type="button"
                             className="btn btn-secondary"
                             data-dismiss="modal"
                         >
                             Close
-                        </button>
-                        <button type="button" className="btn btn-primary">
-                            Save changes
                         </button>
                     </div>
                 </div>

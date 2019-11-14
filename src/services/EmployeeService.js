@@ -225,7 +225,7 @@ if (localStorage.mockDataFromLocal) {
     mockData = JSON.parse(localStorage.mockDataFromLocal)
 }
 
-export function getEmployees({
+export function getEmployeesAPI({
     sortBy = "",
     searchMap = {},
     sortOrder = null,
@@ -276,5 +276,18 @@ export function getEmployees({
         result = result.slice(0, length);
 
         resolve(result);
+    })
+}
+
+
+export function removeEmployeesAPI({
+    employeeID
+}) {
+
+    // MOCKING API
+    return new Promise(function (resolve) {
+        mockData = mockData.filter(employee => employee.employeeID !== employeeID)
+        localStorage.mockDataFromLocal = JSON.stringify(mockData)
+        resolve(true);
     })
 }
