@@ -11,7 +11,8 @@ export class EmployeeDetailsEditor extends React.Component {
         const {
             show,
             employeeID,
-            fullName,
+            firstName,
+            lastName,
             code,
             jobTitle,
             phone,
@@ -23,7 +24,8 @@ export class EmployeeDetailsEditor extends React.Component {
         this.state = {
             show,
             employeeID,
-            fullName,
+            firstName,
+            lastName,
             code,
             jobTitle,
             phone,
@@ -42,13 +44,15 @@ export class EmployeeDetailsEditor extends React.Component {
         const {
             show = false,
             employeeID,
-            fullName,
+            FirstName,
+            lastName,
             code,
             jobTitle,
             phone,
             email,
             region,
             dob,
+            isEdit,
         } = this.state;
 
         return (
@@ -67,7 +71,7 @@ export class EmployeeDetailsEditor extends React.Component {
                     <div className="modal-content">
                         <div className="modal-header">
                             <h5 className="modal-title" id="EmployeeEditModalLabel">
-                                Create Employee
+                                {isEdit ? "Edit" : "Create"} Employee
                             </h5>
                             <button
                                 type="button"

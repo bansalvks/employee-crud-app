@@ -3,7 +3,8 @@ import React from 'react'
 export function EmployeeDetails({
     show = false,
     employeeID,
-    fullName,
+    firstName,
+    lastName,
     code,
     jobTitle,
     phone,
@@ -43,7 +44,7 @@ export function EmployeeDetails({
                         </div>
                         <div className="row">
                             <h5 className="modal-title" id="exampleModalLabel">
-                                {fullName}
+                                {firstName + " " + lastName}
                             </h5>
                         </div>
                     </div>
