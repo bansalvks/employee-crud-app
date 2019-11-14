@@ -10,6 +10,7 @@ import { EmployeeDetailsEditor } from './Containers/EmployeeDetailsEditor';
 import { getEmployees } from "./services/EmployeeService";
 import moment from 'moment';
 import _ from 'lodash';
+
 export class App extends React.PureComponent {
   constructor(props) {
     super(props)
@@ -41,12 +42,14 @@ export class App extends React.PureComponent {
     const {
       searchMap,
       sortBy,
+      sortOrder,
       length,
     } = this.state;
 
     getEmployees({
       searchMap,
       sortBy,
+      sortOrder,
       length,
     })
       .then((employees) => {
@@ -108,12 +111,35 @@ export class App extends React.PureComponent {
     });
   }
 
+  sort = (event) => {
+    const {
+      sortOrder,
+    } = this.state;
+
+    const newSortBy = event.target.dataset.searchKey;
+    let newSortOrder = null;
+
+    if (sortOrder === null) {
+      newSortOrder = true;
+    }
+    else {
+      newSortOrder = !sortOrder;
+    }
+
+    this.setState({
+      sortBy: newSortBy,
+      sortOrder: newSortOrder,
+    });
+  }
+
 
   render() {
 
     const {
       employees,
       searchMap,
+      sortOrder,
+      sortBy,
     } = this.state;
 
     const rowsElements = employees.map(function ({
@@ -128,7 +154,7 @@ export class App extends React.PureComponent {
       dob,
     }) {
       return (
-        <tr>
+        <tr key={employeeID}>
           <th scope="row">{employeeID}</th>
           <td>{firstName}</td>
           <td>{lastName}</td>
@@ -172,18 +198,18 @@ export class App extends React.PureComponent {
             <table className="table">
               <thead>
                 <tr>
-                  <th scope="col">ID</th>
-                  <th scope="col">First Name</th>
-                  <th scope="col">Last Name</th>
-                  <th scope="col">Employee Code</th>
-                  <th scope="col">Job Title</th>
-                  <th scope="col">Phone Number</th>
-                  <th scope="col">Email ID</th>
-                  <th scope="col">Region</th>
-                  <th scope="col">DOB</th>
+                  <th onClick={this.sort} data-search-key="employeeID" scope="col">ID <i className={"fa " + (sortBy === 'employeeID' ? sortOrder === true ? 'fa-arrow-up' : 'fa-arrow-down' : '')} aria-hidden="true"></i></th>
+                  <th onClick={this.sort} data-search-key="firstName" scope="col">First Name <i className={"fa " + (sortBy === 'firstName' ? sortOrder === true ? 'fa-arrow-up' : 'fa-arrow-down' : '')} aria-hidden="true"></i></th>
+                  <th onClick={this.sort} data-search-key="lastName" scope="col">Last Name <i className={"fa " + (sortBy === 'lastName' ? sortOrder === true ? 'fa-arrow-up' : 'fa-arrow-down' : '')} aria-hidden="true"></i></th>
+                  <th onClick={this.sort} data-search-key="code" scope="col">Employee Code <i className={"fa " + (sortBy === 'code' ? sortOrder === true ? 'fa-arrow-up' : 'fa-arrow-down' : '')} aria-hidden="true"></i></th>
+                  <th onClick={this.sort} data-search-key="jobTitle" scope="col">Job Title <i className={"fa " + (sortBy === 'jobTitle' ? sortOrder === true ? 'fa-arrow-up' : 'fa-arrow-down' : '')} aria-hidden="true"></i></th>
+                  <th onClick={this.sort} data-search-key="phone" scope="col">Phone Number <i className={"fa " + (sortBy === 'phone' ? sortOrder === true ? 'fa-arrow-up' : 'fa-arrow-down' : '')} aria-hidden="true"></i></th>
+                  <th onClick={this.sort} data-search-key="email" scope="col">Email ID <i className={"fa " + (sortBy === 'email' ? sortOrder === true ? 'fa-arrow-up' : 'fa-arrow-down' : '')} aria-hidden="true"></i></th >
+                  <th onClick={this.sort} data-search-key="region" scope="col">Region <i className={"fa " + (sortBy === 'region' ? sortOrder === true ? 'fa-arrow-up' : 'fa-arrow-down' : '')} aria-hidden="true"></i></th >
+                  <th onClick={this.sort} data-search-key="dob" scope="col">DOB <i className={"fa " + (sortBy === 'dob' ? sortOrder === true ? 'fa-arrow-up' : 'fa-arrow-down' : '')} aria-hidden="true"></i></th >
                   <th scope="col"></th>
-                </tr>
-              </thead>
+                </tr >
+              </thead >
               <tbody>
 
                 <tr>
@@ -208,9 +234,9 @@ export class App extends React.PureComponent {
 
                 {rowsElements}
               </tbody>
-            </table>
-          </div>
-        </div>
+            </table >
+          </div >
+        </div >
 
         <EmployeeDetails
           show={false}

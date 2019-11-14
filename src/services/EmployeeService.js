@@ -228,6 +228,7 @@ if (localStorage.mockDataFromLocal) {
 export function getEmployees({
     sortBy = "",
     searchMap = {},
+    sortOrder = null,
     length = 10,
 }) {
 
@@ -255,14 +256,21 @@ export function getEmployees({
 
         if (sortBy) {
             result = result.sort(function compare(a, b) {
-                if (a[sortBy] < b[sortBy]) {
+                const aValue = isNaN(a) ? a : Number(a);
+                const bValue = isNaN(b) ? b : Number(b);
+
+                if (aValue[sortBy] < bValue[sortBy]) {
                     return -1;
                 }
-                if (a[sortBy] > b[sortBy]) {
+                if (aValue[sortBy] > bValue[sortBy]) {
                     return 1;
                 }
                 return 0;
             })
+        }
+
+        if (sortOrder === false) {
+            result = result.reverse();
         }
 
         result = result.slice(0, length);
