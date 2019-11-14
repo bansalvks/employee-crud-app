@@ -34,8 +34,9 @@ export function EmployeeDetails({
                         className="close modal-close-button"
                         data-dismiss="modal"
                         aria-label="Close"
+                        onClick={close}
                     >
-                        <span onClick={close} aria-hidden="true">×</span>
+                        <span aria-hidden="true">×</span>
                     </button>
 
                     <div className="container modal-heading">

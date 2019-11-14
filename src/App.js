@@ -7,7 +7,7 @@ import './App.css'
 import Navigation from './Components/Navigation';
 import { EmployeeDetails } from './Containers/EmployeeDetails';
 import { EmployeeDetailsEditor } from './Containers/EmployeeDetailsEditor';
-import { getEmployeesAPI, removeEmployeesAPI } from "./services/EmployeeService";
+import { getEmployeesAPI, removeEmployeesAPI, updateEmployeesAPI, addEmployeesAPI } from "./services/EmployeeService";
 import moment from 'moment';
 import _ from 'lodash';
 
@@ -105,12 +105,72 @@ export class App extends React.PureComponent {
     })
   }
 
-  editEmployeeDetails = (index) => {
-
+  showCreateEmployeeDetails = (e) => {
+    e.preventDefault();
+    this.setState({
+      editEmployeeDetails: {}
+    });
   }
 
-  createEmployeeDetails = (index) => {
+  showEditEmployeeDetails = (e) => {
+    e.preventDefault();
 
+    const index = e.target.dataset.index
+
+    const {
+      employees
+    } = this.state;
+
+    this.setState({
+      editEmployeeDetails: employees[index]
+    });
+  }
+
+  hideEditEmployeeDetails = () => {
+    this.setState({
+      editEmployeeDetails: null
+    })
+  }
+
+  upsertEmployeeDetails = ({
+    isNew,
+    employeeID,
+    firstName,
+    lastName,
+    code,
+    jobTitle,
+    phone,
+    email,
+    region,
+    dob,
+  }) => {
+
+    let upsert = isNew ? addEmployeesAPI : updateEmployeesAPI
+
+    if (isNew &&
+      !firstName &&
+      !lastName &&
+      !jobTitle &&
+      !phone &&
+      !email &&
+      !region) {
+      this.hideEditEmployeeDetails();
+      return
+    }
+
+    upsert({
+      firstName,
+      lastName,
+      jobTitle,
+      phone,
+      email,
+      region,
+      dob,
+    })
+      .then(() => {
+        this.getEmployees();
+        this.hideEditEmployeeDetails();
+      })
   }
 
   removeEmployee = (e) => {
@@ -167,6 +227,7 @@ export class App extends React.PureComponent {
       sortOrder,
       sortBy,
       viewEmployeeDetails,
+      editEmployeeDetails,
     } = this.state;
 
     const rowsElements = employees.map(({
@@ -200,7 +261,7 @@ export class App extends React.PureComponent {
               <div className="dropdown-menu" aria-labelledby="rowActions">
                 <a className="dropdown-item" data-index={index} onClick={this.removeEmployee} href="#">Remove</a>
                 <a className="dropdown-item" data-index={index} onClick={this.showEmployeeDetails} href="#">View</a>
-                <a className="dropdown-item" href="#">Edit</a>
+                <a className="dropdown-item" data-index={index} onClick={this.showEditEmployeeDetails} href="#">Edit</a>
               </div>
             </div>
           </td>
@@ -217,7 +278,7 @@ export class App extends React.PureComponent {
               <h1>Employees</h1>
             </div>
             <div className="col-2">
-              <button type="button" className="btn btn-primary create-employee-button">Create Employee</button>
+              <button type="button" onClick={this.showCreateEmployeeDetails} className="btn btn-primary create-employee-button">Create Employee</button>
             </div>
           </div>
 
@@ -279,19 +340,20 @@ export class App extends React.PureComponent {
           close={this.hideEmployeeDetails}
         /> : null}
 
-        <EmployeeDetailsEditor
-          show={false}
-          employeeID={'EM03'}
-          firstName={'Vikas Bansal'}
-          lastName=""
-          code={'E1'}
-          jobTitle={'LSE'}
-          phone={'8802339189'}
-          email={'bansal.vks@gmail.com'}
-          region={'IN'}
-          dob={new Date()}
-        />
-
+        {editEmployeeDetails ? <EmployeeDetailsEditor
+          show={true}
+          employeeID={editEmployeeDetails.employeeID}
+          firstName={editEmployeeDetails.firstName}
+          lastName={editEmployeeDetails.lastName}
+          code={editEmployeeDetails.code}
+          jobTitle={editEmployeeDetails.jobTitle}
+          phone={editEmployeeDetails.phone}
+          email={editEmployeeDetails.email}
+          region={editEmployeeDetails.region}
+          dob={editEmployeeDetails.dob}
+          close={this.hideEditEmployeeDetails}
+          submit={this.upsertEmployeeDetails}
+        /> : null}
       </div >
     )
   }

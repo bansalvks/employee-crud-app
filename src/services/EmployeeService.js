@@ -1,3 +1,5 @@
+import { capitalizeFirstLetter } from "../../CommonUtils";
+
 let mockData = [
     {
         "employeeID": "E1",
@@ -283,10 +285,69 @@ export function getEmployeesAPI({
 export function removeEmployeesAPI({
     employeeID
 }) {
-
     // MOCKING API
     return new Promise(function (resolve) {
         mockData = mockData.filter(employee => employee.employeeID !== employeeID)
+        localStorage.mockDataFromLocal = JSON.stringify(mockData)
+        resolve(true);
+    })
+}
+
+export function updateEmployeesAPI({
+    employeeID,
+    firstName,
+    lastName,
+    code,
+    jobTitle,
+    phone,
+    email,
+    region,
+    dob,
+}) {
+    // MOCKING API
+    return new Promise(function (resolve) {
+        const employee = mockData.find(e => e.employeeID === employeeID)
+        employee.firstName = capitalizeFirstLetter(firstName);
+        employee.lastName = capitalizeFirstLetter(lastName);
+        employee.code = code;
+        employee.jobTitle = capitalizeFirstLetter(jobTitle);
+        employee.phone = phone;
+        employee.email = email;
+        employee.region = region;
+        employee.dob = dob;
+
+        localStorage.mockDataFromLocal = JSON.stringify(mockData)
+        resolve(true);
+    })
+}
+
+export function addEmployeesAPI({
+    employeeID,
+    firstName,
+    lastName,
+    code,
+    jobTitle,
+    phone,
+    email,
+    region,
+    dob,
+}) {
+    // MOCKING API
+    return new Promise(function (resolve) {
+        const id = mockData.length + 1
+        mockData.push({
+            employeeID,
+            firstName: capitalizeFirstLetter(firstName),
+            lastName: capitalizeFirstLetter(lastName),
+            code,
+            jobTitle: capitalizeFirstLetter(jobTitle),
+            phone,
+            email,
+            region,
+            dob,
+            employeeID: "E" + id,
+            code: "EM" + id,
+        })
         localStorage.mockDataFromLocal = JSON.stringify(mockData)
         resolve(true);
     })
