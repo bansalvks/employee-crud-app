@@ -1,4 +1,4 @@
-import { capitalizeFirstLetter } from "../../CommonUtils";
+import { capitalizeFirstLetter } from "../CommonUtils";
 
 let mockData = [
     {
