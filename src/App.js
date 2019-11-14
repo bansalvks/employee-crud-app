@@ -47,7 +47,7 @@ export class TodoBucketApp extends React.Component {
                 />
                 <button className="btn btn-outline-success my-2 my-sm-0" type="submit">
                   Search
-  </button>
+                </button>
               </form>
             </div>
           </div>
@@ -84,8 +84,29 @@ export class TodoBucketApp extends React.Component {
           </div>
         </div>
 
-        <EmployeeDetails show={false} />
-        <EmployeeDetailsEditor show={false} />
+        <EmployeeDetails
+          show={false}
+          employeeID={'EM03'}
+          fullName={'Vikas Bansal'}
+          code={'E1'}
+          jobTitle={'LSE'}
+          phone={'8802339189'}
+          email={'bansal.vks@gmail.com'}
+          region={'IN'}
+          dob={'23/02/1991'}
+        />
+        
+        <EmployeeDetailsEditor
+          show={true}
+          employeeID={'EM03'}
+          fullName={'Vikas Bansal'}
+          code={'E1'}
+          jobTitle={'LSE'}
+          phone={'8802339189'}
+          email={'bansal.vks@gmail.com'}
+          region={'IN'}
+          dob={new Date()}
+        />
 
       </div>
     )
