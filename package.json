@@ -1,5 +1,5 @@
 {
-  "name": "todo-bucket",
+  "name": "employee-crud",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -33,5 +33,5 @@
       "last 1 safari version"
     ]
   },
-  "homepage": "https://bansalvks.github.io/todo-bucket"
+  "homepage": "http://bansalvks.github.io/employee-crud-app/"
 }
