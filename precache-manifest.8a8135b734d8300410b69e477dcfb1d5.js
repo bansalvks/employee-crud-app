@@ -1,23 +1,23 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "967b9c3b219fcf8c77b602667aec05ae",
+    "revision": "36a57f762454f2ea8d019657cfb43c64",
     "url": "/employee-crud-app/index.html"
   },
   {
-    "revision": "dc9f79f2968b5df02e21",
+    "revision": "5098201bd8337a2bb9a1",
     "url": "/employee-crud-app/static/css/2.b90ce945.chunk.css"
   },
   {
-    "revision": "f07cf5483f72fdfc6128",
+    "revision": "9084cc7b3362f339c5cb",
     "url": "/employee-crud-app/static/css/main.af66ba29.chunk.css"
   },
   {
-    "revision": "dc9f79f2968b5df02e21",
-    "url": "/employee-crud-app/static/js/2.b8f5b258.chunk.js"
+    "revision": "5098201bd8337a2bb9a1",
+    "url": "/employee-crud-app/static/js/2.d29f318e.chunk.js"
   },
   {
-    "revision": "f07cf5483f72fdfc6128",
-    "url": "/employee-crud-app/static/js/main.ae6746cc.chunk.js"
+    "revision": "9084cc7b3362f339c5cb",
+    "url": "/employee-crud-app/static/js/main.90b64e38.chunk.js"
   },
   {
     "revision": "37b449e122c9f416227e",

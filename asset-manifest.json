@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/employee-crud-app/static/css/main.af66ba29.chunk.css",
-    "main.js": "/employee-crud-app/static/js/main.ae6746cc.chunk.js",
-    "main.js.map": "/employee-crud-app/static/js/main.ae6746cc.chunk.js.map",
+    "main.js": "/employee-crud-app/static/js/main.90b64e38.chunk.js",
+    "main.js.map": "/employee-crud-app/static/js/main.90b64e38.chunk.js.map",
     "runtime-main.js": "/employee-crud-app/static/js/runtime-main.1e5ca381.js",
     "runtime-main.js.map": "/employee-crud-app/static/js/runtime-main.1e5ca381.js.map",
     "static/css/2.b90ce945.chunk.css": "/employee-crud-app/static/css/2.b90ce945.chunk.css",
-    "static/js/2.b8f5b258.chunk.js": "/employee-crud-app/static/js/2.b8f5b258.chunk.js",
-    "static/js/2.b8f5b258.chunk.js.map": "/employee-crud-app/static/js/2.b8f5b258.chunk.js.map",
+    "static/js/2.d29f318e.chunk.js": "/employee-crud-app/static/js/2.d29f318e.chunk.js",
+    "static/js/2.d29f318e.chunk.js.map": "/employee-crud-app/static/js/2.d29f318e.chunk.js.map",
     "index.html": "/employee-crud-app/index.html",
-    "precache-manifest.838b19c803f42b35537232acb7d8aa89.js": "/employee-crud-app/precache-manifest.838b19c803f42b35537232acb7d8aa89.js",
+    "precache-manifest.8a8135b734d8300410b69e477dcfb1d5.js": "/employee-crud-app/precache-manifest.8a8135b734d8300410b69e477dcfb1d5.js",
     "service-worker.js": "/employee-crud-app/service-worker.js",
     "static/css/2.b90ce945.chunk.css.map": "/employee-crud-app/static/css/2.b90ce945.chunk.css.map",
     "static/css/main.af66ba29.chunk.css.map": "/employee-crud-app/static/css/main.af66ba29.chunk.css.map"
@@ -17,8 +17,8 @@
   "entrypoints": [
     "static/js/runtime-main.1e5ca381.js",
     "static/css/2.b90ce945.chunk.css",
-    "static/js/2.b8f5b258.chunk.js",
+    "static/js/2.d29f318e.chunk.js",
     "static/css/main.af66ba29.chunk.css",
-    "static/js/main.ae6746cc.chunk.js"
+    "static/js/main.90b64e38.chunk.js"
   ]
 }
