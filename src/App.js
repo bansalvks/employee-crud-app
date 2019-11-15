@@ -197,10 +197,14 @@ export class App extends React.PureComponent {
   }
 
   search = (event) => {
+    if (!event.target) {
+      return
+    }
+    
     const { searchMap } = this.state
     let newState = { ...searchMap }
     newState[event.target.dataset.searchKey] = event.target.value
-    debugger
+
     this.setState({
       searchMap: newState
     });
