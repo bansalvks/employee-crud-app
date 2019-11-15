@@ -232,8 +232,8 @@ export function getEmployeesAPI({
     searchMap = {},
     sortOrder = null,
     length = 10,
+    startIndex = 0,
 }) {
-
     // MOCKING API
     return new Promise(function (resolve) {
         let result = mockData;
@@ -275,9 +275,14 @@ export function getEmployeesAPI({
             result = result.reverse();
         }
 
-        result = result.slice(0, length);
 
-        resolve(result);
+        const startPoint = (startIndex * length)
+        result = result.slice(startPoint, startPoint + length);
+
+        resolve({
+            employees: result,
+            count: mockData.length
+        });
     })
 }
 

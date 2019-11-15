@@ -32,7 +32,9 @@ export class App extends React.PureComponent {
       },
       sortBy: '',
       sortOrder: null,
-      length: 15
+      length: 15,
+      startIndex: 0,
+      employeeCount: 0,
     };
 
     this.throttledSearch = _.throttle(this.search, 1000, { trailing: true });
@@ -44,6 +46,7 @@ export class App extends React.PureComponent {
       sortBy,
       sortOrder,
       length,
+      startIndex,
     } = this.state;
 
     getEmployeesAPI({
@@ -51,10 +54,12 @@ export class App extends React.PureComponent {
       sortBy,
       sortOrder,
       length,
+      startIndex,
     })
-      .then((employees) => {
+      .then(({ employees, count }) => {
         this.setState({
           employees,
+          employeeCount: count
         })
       })
   }
@@ -69,13 +74,15 @@ export class App extends React.PureComponent {
       sortBy,
       sortOrder,
       length,
+      startIndex,
     } = this.state;
 
     if (
       searchMap !== prevState.searchMap ||
       sortBy !== prevState.sortBy ||
       sortOrder !== prevState.sortOrder ||
-      length !== prevState.length
+      length !== prevState.length ||
+      startIndex !== prevState.startIndex
     ) {
       this.getEmployees();
     }
@@ -218,6 +225,24 @@ export class App extends React.PureComponent {
     });
   }
 
+  gotoPage = (startIndex) => {
+    const {
+      length,
+      employeeCount
+    } = this.state;
+
+    if (startIndex < 0) {
+      return;
+    }
+
+    if (startIndex > Math.ceil(employeeCount / length)) {
+      return;
+    }
+
+    this.setState({
+      startIndex,
+    })
+  }
 
   render() {
 
@@ -228,7 +253,20 @@ export class App extends React.PureComponent {
       sortBy,
       viewEmployeeDetails,
       editEmployeeDetails,
+      employeeCount,
+      startIndex,
+      length
     } = this.state;
+
+    const pageNumberElements = []
+    for (let i = 0; i < Math.ceil(employeeCount / length); i++) {
+      console.log(startIndex === i)
+      pageNumberElements.push(
+        <li onClick={() => {
+          this.gotoPage(i)
+        }} className={"page-item " + (startIndex === i ? 'active' : '')}><a className="page-link" href="#">{i + 1}</a></li>
+      )
+    }
 
     const rowsElements = employees.map(({
       employeeID,
@@ -297,19 +335,17 @@ export class App extends React.PureComponent {
                   <th onClick={this.sort} data-search-key="dob" scope="col">DOB <i className={"fa " + (sortBy === 'dob' ? sortOrder === true ? 'fa-arrow-up' : 'fa-arrow-down' : '')} aria-hidden="true"></i></th >
                   <th scope="col"></th>
                 </tr >
-              </thead >
-              <tbody>
 
                 <tr>
-                  <td><input value={searchMap.employeeID} onChange={this.search} data-search-key="employeeID" type="text" className="form-control" /></td>
-                  <td><input value={searchMap.firstName} onChange={this.search} data-search-key="firstName" type="text" className="form-control" /></td>
-                  <td><input value={searchMap.lastName} onChange={this.search} data-search-key="lastName" type="text" className="form-control" /></td>
-                  <td><input value={searchMap.code} onChange={this.search} data-search-key="code" type="text" className="form-control" /></td>
-                  <td><input value={searchMap.jobTitle} onChange={this.search} data-search-key="jobTitle" type="text" className="form-control" /></td>
-                  <td><input value={searchMap.phone} onChange={this.search} data-search-key="phone" type="text" className="form-control" /></td>
-                  <td><input value={searchMap.email} onChange={this.search} data-search-key="email" type="text" className="form-control" /></td>
-                  <td><input value={searchMap.region} onChange={this.search} data-search-key="region" type="text" className="form-control" /></td>
-                  <td>
+                  <th><input value={searchMap.employeeID} onChange={this.search} data-search-key="employeeID" type="text" className="form-control" /></th>
+                  <th><input value={searchMap.firstName} onChange={this.search} data-search-key="firstName" type="text" className="form-control" /></th>
+                  <th><input value={searchMap.lastName} onChange={this.search} data-search-key="lastName" type="text" className="form-control" /></th>
+                  <th><input value={searchMap.code} onChange={this.search} data-search-key="code" type="text" className="form-control" /></th>
+                  <th><input value={searchMap.jobTitle} onChange={this.search} data-search-key="jobTitle" type="text" className="form-control" /></th>
+                  <th><input value={searchMap.phone} onChange={this.search} data-search-key="phone" type="text" className="form-control" /></th>
+                  <th><input value={searchMap.email} onChange={this.search} data-search-key="email" type="text" className="form-control" /></th>
+                  <th><input value={searchMap.region} onChange={this.search} data-search-key="region" type="text" className="form-control" /></th>
+                  <th>
                     <DatePicker
                       value={searchMap.dob}
                       onChange={this.search}
@@ -317,12 +353,23 @@ export class App extends React.PureComponent {
                       className="form-control"
                       selected={null}
                     />
-                  </td>
+                  </th>
+                  <th></th>
                 </tr>
-
+              </thead >
+              <tbody className="table-body-overflow">
                 {rowsElements}
               </tbody>
             </table >
+            <ul className="pagination">
+              <li onClick={() => {
+                this.gotoPage(startIndex - 1)
+              }} className="page-item"><a className="page-link" href="#">Previous</a></li>
+              {pageNumberElements}
+              <li onClick={() => {
+                this.gotoPage(startIndex + 1)
+              }} className="page-item"><a className="page-link" href="#">Next</a></li>
+            </ul>
           </div >
         </div >
 

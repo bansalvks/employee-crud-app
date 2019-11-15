@@ -32,7 +32,8 @@ export class EmployeeDetailsEditor extends React.Component {
             phone,
             email,
             region,
-            dob: dob || new Date(),
+            dob,
+            errors: {}
         }
     }
 
@@ -81,6 +82,25 @@ export class EmployeeDetailsEditor extends React.Component {
         });
     }
 
+    validateInput = (event) => {
+        const key = event.target.dataset.key
+        const {
+            errors
+        } = this.state;
+
+        if (!this.state[key]) {
+            this.setState({
+                errors: { ...errors, [key]: true }
+            })
+        }
+        else {
+            delete errors[key]
+            this.setState({
+                errors: { ...errors }
+            })
+        }
+    }
+
     render() {
         const {
             close
@@ -97,6 +117,7 @@ export class EmployeeDetailsEditor extends React.Component {
             region,
             dob,
             isNew,
+            errors,
         } = this.state;
 
         return (
@@ -124,7 +145,7 @@ export class EmployeeDetailsEditor extends React.Component {
                                 aria-label="Close"
                                 onClick={close}
                             >
-                                <span aria-hidden="true">×</span>
+                                <span aria-hidden="true">   ×</span>
                             </button>
 
                         </div>
@@ -136,8 +157,10 @@ export class EmployeeDetailsEditor extends React.Component {
                                     <div className="col-6">
                                         <label htmlFor="codeInput" className="light-label">ID</label>
                                         <div className="row">
-                                            <div className="col-2">EM</div>
-                                            <div className="col-10">
+                                            <div class="input-group-prepend col-3">
+                                                <span class="input-group-text">EM</span>
+                                            </div>
+                                            <div className="col-9 nopadding">
                                                 <input
                                                     type="text"
                                                     className="form-control"
@@ -157,22 +180,26 @@ export class EmployeeDetailsEditor extends React.Component {
                                         <label htmlFor="fnameInput" className="light-label">First Name</label>
                                         <input
                                             type="text"
-                                            className="form-control"
+                                            className={"form-control " + (errors['firstName'] ? 'error-input' : '')}
                                             id="fnameInput"
                                             data-key="firstName"
                                             onChange={this.handleChange}
                                             value={firstName}
+                                            onBlur={this.validateInput}
+                                            required
                                         />
                                     </div>
                                     <div className="col-6">
                                         <label htmlFor="lnameInput" className="light-label">Last Name</label>
                                         <input
                                             type="text"
-                                            className="form-control"
+                                            className={"form-control " + (errors['lastName'] ? 'error-input' : '')}
                                             id="lnameInput"
                                             data-key="lastName"
                                             onChange={this.handleChange}
+                                            onBlur={this.validateInput}
                                             value={lastName}
+                                            required
                                         />
                                     </div>
                                 </div>
@@ -183,11 +210,13 @@ export class EmployeeDetailsEditor extends React.Component {
                                         <label htmlFor="jobTitleInput" className="light-label">Job Title</label>
                                         <input
                                             type="text"
-                                            className="form-control"
+                                            className={"form-control " + (errors['jobTitle'] ? 'error-input' : '')}
                                             id="jobTitleInput"
                                             data-key="jobTitle"
+                                            onBlur={this.validateInput}
                                             onChange={this.handleChange}
                                             value={jobTitle}
+                                            required
                                         />
                                     </div>
                                 </div>
@@ -198,11 +227,13 @@ export class EmployeeDetailsEditor extends React.Component {
                                         <label htmlFor="emailInput" className="light-label">Email</label>
                                         <input
                                             type="email"
-                                            className="form-control"
+                                            className={"form-control " + (errors['email'] ? 'error-input' : '')}
                                             id="emailInput"
                                             data-key="email"
+                                            onBlur={this.validateInput}
                                             onChange={this.handleChange}
                                             value={email}
+                                            required
                                         />
                                     </div>
                                 </div>
@@ -212,11 +243,13 @@ export class EmployeeDetailsEditor extends React.Component {
                                     <div className="col-12">
                                         <label htmlFor="phoneInput" className="light-label">Phone Number</label>
                                         <input
-                                            className="form-control"
+                                            className={"form-control " + (errors['phone'] ? 'error-input' : '')}
                                             id="phoneInput"
                                             data-key="phone"
+                                            onBlur={this.validateInput}
                                             onChange={this.handleChange}
                                             value={phone}
+                                            required
                                         />
                                     </div>
                                 </div>
@@ -226,27 +259,31 @@ export class EmployeeDetailsEditor extends React.Component {
                                         <label htmlFor="regionInput" className="light-label">Region</label>
                                         <input
                                             type="text"
-                                            className="form-control"
+                                            className={"form-control " + (errors['region'] ? 'error-input' : '')}
                                             id="regionInput"
+                                            onBlur={this.validateInput}
                                             data-key="region"
                                             onChange={this.handleChange}
                                             value={region}
+                                            required
                                         />
                                     </div>
                                     <div className="col-6">
                                         <label htmlFor="dobInput" className="light-label">DOB</label>
                                         <DatePicker
-                                            className="form-control"
+                                            className={"form-control " + (errors['dob'] ? 'error-input' : '')}
                                             selected={dob}
+                                            onBlur={this.validateInput}
                                             onChange={this.handleChangeDate}
                                             data-key="dob"
+                                            required
                                         />
                                     </div>
                                 </div>
 
 
                                 <div>
-                                    <button type="submit" className="btn btn-primary employee-details-edit-buttons">
+                                    <button type="submit" disabled={errors.length} className="btn btn-primary employee-details-edit-buttons">
                                         Submit
                                     </button>
                                     <button

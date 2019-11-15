@@ -53,3 +53,40 @@
 .employee-details-edit-buttons {
     margin-right: 20px;
 }
+
+.error-message {
+    color: red;
+    margin-top: 5px;
+}
+
+.error-input {
+    border-top-color: red;
+    border-bottom-color: red;
+    border-left-color: red;
+    border-right-color: red;
+}
+
+.nopadding {
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.dnone {
+    display: none;
+}
+
+
+tbody {
+    display:block;
+    height:50vh;
+    overflow:auto;
+}
+thead, tbody tr {
+    display:table;
+    width:100%;
+    table-layout:fixed;
+    word-wrap: break-word;
+}
+thead {
+    width: calc( 100% - 1em )
+}
