@@ -37,7 +37,6 @@ export class App extends React.PureComponent {
       employeeCount: 0,
     };
 
-    this.throttledSearch = _.throttle(this.search, 1000, { trailing: true });
     this.throttledPageLengthChanged = _.throttle(this.pageLengthChanged, 1000, { trailing: true });
   }
 
@@ -200,7 +199,7 @@ export class App extends React.PureComponent {
     if (!event.target) {
       return
     }
-    
+
     const { searchMap } = this.state
     let newState = { ...searchMap }
     newState[event.target.dataset.searchKey] = event.target.value
@@ -360,14 +359,14 @@ export class App extends React.PureComponent {
                 </tr >
 
                 <tr>
-                  <th><input value={searchMap.employeeID} onChange={this.throttledSearch} data-search-key="employeeID" type="text" className="form-control" /></th>
-                  <th><input value={searchMap.firstName} onChange={this.throttledSearch} data-search-key="firstName" type="text" className="form-control" /></th>
-                  <th><input value={searchMap.lastName} onChange={this.throttledSearch} data-search-key="lastName" type="text" className="form-control" /></th>
-                  <th><input value={searchMap.code} onChange={this.throttledSearch} data-search-key="code" type="text" className="form-control" /></th>
-                  <th><input value={searchMap.jobTitle} onChange={this.throttledSearch} data-search-key="jobTitle" type="text" className="form-control" /></th>
-                  <th><input value={searchMap.phone} onChange={this.throttledSearch} data-search-key="phone" type="text" className="form-control" /></th>
-                  <th><input value={searchMap.email} onChange={this.throttledSearch} data-search-key="email" type="text" className="form-control" /></th>
-                  <th><input value={searchMap.region} onChange={this.throttledSearch} data-search-key="region" type="text" className="form-control" /></th>
+                  <th><input value={searchMap.employeeID} onChange={this.search} data-search-key="employeeID" type="text" className="form-control" /></th>
+                  <th><input value={searchMap.firstName} onChange={this.search} data-search-key="firstName" type="text" className="form-control" /></th>
+                  <th><input value={searchMap.lastName} onChange={this.search} data-search-key="lastName" type="text" className="form-control" /></th>
+                  <th><input value={searchMap.code} onChange={this.search} data-search-key="code" type="text" className="form-control" /></th>
+                  <th><input value={searchMap.jobTitle} onChange={this.search} data-search-key="jobTitle" type="text" className="form-control" /></th>
+                  <th><input value={searchMap.phone} onChange={this.search} data-search-key="phone" type="text" className="form-control" /></th>
+                  <th><input value={searchMap.email} onChange={this.search} data-search-key="email" type="text" className="form-control" /></th>
+                  <th><input value={searchMap.region} onChange={this.search} data-search-key="region" type="text" className="form-control" /></th>
                   <th>
                     <DatePicker
                       onChange={this.searchByDob}
