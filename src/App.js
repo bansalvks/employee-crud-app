@@ -32,12 +32,13 @@ export class App extends React.PureComponent {
       },
       sortBy: '',
       sortOrder: null,
-      length: 15,
+      pageSize: 15,
       startIndex: 0,
       employeeCount: 0,
     };
 
     this.throttledSearch = _.throttle(this.search, 1000, { trailing: true });
+    this.throttledPageLengthChanged = _.throttle(this.pageLengthChanged, 1000, { trailing: true });
   }
 
   getEmployees = () => {
@@ -45,7 +46,7 @@ export class App extends React.PureComponent {
       searchMap,
       sortBy,
       sortOrder,
-      length,
+      pageSize,
       startIndex,
     } = this.state;
 
@@ -53,7 +54,7 @@ export class App extends React.PureComponent {
       searchMap,
       sortBy,
       sortOrder,
-      length,
+      pageSize,
       startIndex,
     })
       .then(({ employees, count }) => {
@@ -73,15 +74,15 @@ export class App extends React.PureComponent {
       searchMap,
       sortBy,
       sortOrder,
-      length,
+      pageSize,
       startIndex,
     } = this.state;
-
+    console.log(pageSize)
     if (
       searchMap !== prevState.searchMap ||
       sortBy !== prevState.sortBy ||
       sortOrder !== prevState.sortOrder ||
-      length !== prevState.length ||
+      pageSize !== prevState.pageSize ||
       startIndex !== prevState.startIndex
     ) {
       this.getEmployees();
@@ -227,7 +228,7 @@ export class App extends React.PureComponent {
 
   gotoPage = (startIndex) => {
     const {
-      length,
+      pageSize,
       employeeCount
     } = this.state;
 
@@ -235,13 +236,22 @@ export class App extends React.PureComponent {
       return;
     }
 
-    if (startIndex > Math.ceil(employeeCount / length)) {
+    if (startIndex > Math.ceil(employeeCount / pageSize)) {
       return;
     }
 
     this.setState({
       startIndex,
     })
+  }
+
+  pageLengthChanged = (event) => {
+    if (event.target) {
+      this.setState({
+        pageSize: event.target.value,
+        startIndex: 0,
+      })
+    }
   }
 
   render() {
@@ -255,12 +265,11 @@ export class App extends React.PureComponent {
       editEmployeeDetails,
       employeeCount,
       startIndex,
-      length
+      pageSize
     } = this.state;
 
     const pageNumberElements = []
-    for (let i = 0; i < Math.ceil(employeeCount / length); i++) {
-      console.log(startIndex === i)
+    for (let i = 0; i < Math.ceil(employeeCount / pageSize) && pageSize > 0; i++) {
       pageNumberElements.push(
         <li onClick={() => {
           this.gotoPage(i)
@@ -362,6 +371,10 @@ export class App extends React.PureComponent {
               </tbody>
             </table >
             <ul className="pagination">
+              <li>
+                <input value={pageSize} onChange={this.throttledPageLengthChanged} data-search-key="region" type="text" className="form-control page-size-input" />
+              </li>
+
               <li onClick={() => {
                 this.gotoPage(startIndex - 1)
               }} className="page-item"><a className="page-link" href="#">Previous</a></li>
@@ -369,6 +382,7 @@ export class App extends React.PureComponent {
               <li onClick={() => {
                 this.gotoPage(startIndex + 1)
               }} className="page-item"><a className="page-link" href="#">Next</a></li>
+
             </ul>
           </div >
         </div >

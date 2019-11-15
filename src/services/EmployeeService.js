@@ -231,7 +231,7 @@ export function getEmployeesAPI({
     sortBy = "",
     searchMap = {},
     sortOrder = null,
-    length = 10,
+    pageSize = 10,
     startIndex = 0,
 }) {
     // MOCKING API
@@ -275,9 +275,9 @@ export function getEmployeesAPI({
             result = result.reverse();
         }
 
+        const startPoint = (startIndex * pageSize)
 
-        const startPoint = (startIndex * length)
-        result = result.slice(startPoint, startPoint + length);
+        result = result.slice(startPoint, startPoint + pageSize);
 
         resolve({
             employees: result,

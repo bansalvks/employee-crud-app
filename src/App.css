@@ -77,16 +77,24 @@
 
 
 tbody {
-    display:block;
-    height:50vh;
-    overflow:auto;
+    display: block;
+    height: 50vh;
+    overflow: auto;
 }
-thead, tbody tr {
-    display:table;
-    width:100%;
-    table-layout:fixed;
+
+thead,
+tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
     word-wrap: break-word;
 }
+
 thead {
-    width: calc( 100% - 1em )
+    width: calc(100% - 1em)
+}
+
+.page-size-input {
+    margin-right: 10px;
+    width: 50px;
 }
