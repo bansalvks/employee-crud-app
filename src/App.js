@@ -77,7 +77,7 @@ export class App extends React.PureComponent {
       pageSize,
       startIndex,
     } = this.state;
-    console.log(pageSize)
+
     if (
       searchMap !== prevState.searchMap ||
       sortBy !== prevState.sortBy ||
@@ -197,9 +197,19 @@ export class App extends React.PureComponent {
   }
 
   search = (event) => {
-    let newState = {}
+    const { searchMap } = this.state
+    let newState = { ...searchMap }
     newState[event.target.dataset.searchKey] = event.target.value
+    debugger
+    this.setState({
+      searchMap: newState
+    });
+  }
 
+  searchByDob = (date) => {
+    const { searchMap } = this.state
+    let newState = { ...searchMap }
+    newState.dob = date.getTime();
     this.setState({
       searchMap: newState
     });
@@ -271,7 +281,7 @@ export class App extends React.PureComponent {
     const pageNumberElements = []
     for (let i = 0; i < Math.ceil(employeeCount / pageSize) && pageSize > 0; i++) {
       pageNumberElements.push(
-        <li onClick={() => {
+        <li key={i} onClick={() => {
           this.gotoPage(i)
         }} className={"page-item " + (startIndex === i ? 'active' : '')}><a className="page-link" href="#">{i + 1}</a></li>
       )
@@ -346,21 +356,20 @@ export class App extends React.PureComponent {
                 </tr >
 
                 <tr>
-                  <th><input value={searchMap.employeeID} onChange={this.search} data-search-key="employeeID" type="text" className="form-control" /></th>
-                  <th><input value={searchMap.firstName} onChange={this.search} data-search-key="firstName" type="text" className="form-control" /></th>
-                  <th><input value={searchMap.lastName} onChange={this.search} data-search-key="lastName" type="text" className="form-control" /></th>
-                  <th><input value={searchMap.code} onChange={this.search} data-search-key="code" type="text" className="form-control" /></th>
-                  <th><input value={searchMap.jobTitle} onChange={this.search} data-search-key="jobTitle" type="text" className="form-control" /></th>
-                  <th><input value={searchMap.phone} onChange={this.search} data-search-key="phone" type="text" className="form-control" /></th>
-                  <th><input value={searchMap.email} onChange={this.search} data-search-key="email" type="text" className="form-control" /></th>
-                  <th><input value={searchMap.region} onChange={this.search} data-search-key="region" type="text" className="form-control" /></th>
+                  <th><input value={searchMap.employeeID} onChange={this.throttledSearch} data-search-key="employeeID" type="text" className="form-control" /></th>
+                  <th><input value={searchMap.firstName} onChange={this.throttledSearch} data-search-key="firstName" type="text" className="form-control" /></th>
+                  <th><input value={searchMap.lastName} onChange={this.throttledSearch} data-search-key="lastName" type="text" className="form-control" /></th>
+                  <th><input value={searchMap.code} onChange={this.throttledSearch} data-search-key="code" type="text" className="form-control" /></th>
+                  <th><input value={searchMap.jobTitle} onChange={this.throttledSearch} data-search-key="jobTitle" type="text" className="form-control" /></th>
+                  <th><input value={searchMap.phone} onChange={this.throttledSearch} data-search-key="phone" type="text" className="form-control" /></th>
+                  <th><input value={searchMap.email} onChange={this.throttledSearch} data-search-key="email" type="text" className="form-control" /></th>
+                  <th><input value={searchMap.region} onChange={this.throttledSearch} data-search-key="region" type="text" className="form-control" /></th>
                   <th>
                     <DatePicker
-                      value={searchMap.dob}
-                      onChange={this.search}
+                      onChange={this.searchByDob}
                       data-search-key="dob"
                       className="form-control"
-                      selected={null}
+                      selected={searchMap.dob}
                     />
                   </th>
                   <th></th>
